@@ -51,6 +51,47 @@ app.post("api/courses", (req, res) => {
   res.send(postCourse);
 });
 
+// validation
+const Joi = require("joi");
+// test
+app.post("/api/courses", (req, res) => {
+  const schema = {
+    name: Joi.string().min(3).required(),
+  };
+  const check = Joi.validate(req.body, schema);
+  console.log(check);
+
+  // validation logic or using npm joi (mpm i joi)
+  if (!req.body.name || req.body.name.length < 3) {
+    res
+      .status(400)
+      .send("Validation name is required and be minimun 3 character");
+    return;
+  }
+});
+
+// put
+app.put("/api/courses/:id", (req, res) => {
+  // check class
+  const test = course.find((c) => c.id === parseInt(req.params.id));
+  if (!test) {
+    res.status(404).send("no this course");
+  }
+  // no existing 404
+  // validate
+  const schema = {
+    name: Joi.string().min(3).required(),
+  };
+  const check = Joi.validate(req.body, schema);
+  console.log(check);
+  if (check.error) {
+    res.status(404).send(check.error.detail[0].message);
+    return;
+  }
+  course.name=req.body.name;
+  res.send
+  // update class
+});
 // port
 const port = process.env.PORT || 3000;
 app.listen(3000, () => {

@@ -10,7 +10,7 @@ client.connect(async (err) => {
 
   let db = client.db("database");
   let collection = db.collection("member");
-  await collection.insertOne({ email: "lukerspace5" });
+  await collection.insertOne({ email: "lukerspace6" });
   console.log("Update Success");
   client.close();
 });

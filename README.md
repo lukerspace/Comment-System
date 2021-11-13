@@ -1,4 +1,4 @@
-### Node.js
+# Node.js
 
 ### backend node module material
 
@@ -7,12 +7,11 @@
 node index.js to import different module
 
 1. express.js
+   nodemon express.js to create the restful api
+   npm install -g nodemon
 
-nodemon express.js to create the restful api
+2. mongo.js (mongoose)
+   npm i mongoose
+   nodemon mongo.js to CRUD data in mongoose
 
-2. mongo.js
-
-nodemon mongo.js to CRUD data in mongoose
-
-npm install -g nodemon
-npm i mongoose
+3. mdb.js (mongodb)

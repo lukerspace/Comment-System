@@ -9,8 +9,9 @@ client.connect(async (err) => {
     console.log("Error on DB Connection - ", err);
     return;
   }
+  // create a db called database
   db = client.db("database");
-  console.log("Successfully Connect the DB");
+  console.log("Successfully Connect the DB - database");
 });
 
 // express
@@ -40,6 +41,27 @@ app.get("/error", (req, res) => {
   res.render("error.ejs", { msg: error_msg });
 });
 
+app.post("/signup", async (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+  // check the user if exist already
+  // create a collection in DB - database
+  const collection = db.collection("member");
+  let result = await collection.findOne({ email: email });
+  if (result !== null) {
+    res.redirect("/error?msg=Email already exist");
+    console.log("ERROR - Email_already_exist");
+    return;
+  }
+  result = await collection.insertOne({
+    name: name,
+    email: email,
+    password: password,
+  });
+  console.log("SUCCESS - user_upload_successfully");
+  res.redirect("/");
+});
 // listen
 app.listen(3000, () => {
   console.log("Server is Connected....");

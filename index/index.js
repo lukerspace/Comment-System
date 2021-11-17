@@ -50,7 +50,7 @@ app.post("/signup", async (req, res) => {
   const collection = db.collection("member");
   let result = await collection.findOne({ email: email });
   if (result !== null) {
-    res.redirect("/error?msg=Email already exist");
+    res.redirect("/error?msg=Email Already Exist");
     console.log("ERROR - Email_already_exist");
     return;
   }
@@ -62,6 +62,26 @@ app.post("/signup", async (req, res) => {
   console.log("SUCCESS - user_upload_successfully");
   res.redirect("/");
 });
+
+app.post("/login", async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  const collection = db.collection("member");
+  let result = await collection.findOne({
+    $and: [{ email: email }, { password: password }],
+  });
+  if (result === null) {
+    msg = "Password or Account Error";
+    res.redirect("/error?msg=" + msg);
+    return;
+  } else {
+    req.session.member = result;
+    console.log("log :", result.name);
+    res.redirect("/member");
+    console.log("Login Successfully");
+  }
+});
+
 // listen
 app.listen(3000, () => {
   console.log("Server is Connected....");

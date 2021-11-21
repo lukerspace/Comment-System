@@ -8,8 +8,15 @@
   </head>
   <body>
     <h1>Member</h1>
-    <h3>Hello, This is member page</h3>
-
-    <div><a href="/">back index</a></div>
+    <h3>Hello, <%= name %></h3>
+    <div>This is member page</div>
+    <div>Message</div>
+    <!-- JavaScript Code -->
+    
+    <% for(let i=0;i<data.length;i++){ %>
+      <div><%= data[i].name %><div>
+      <div><%= data[i].email %><div>
+    <% }  %> 
+    <div><a href="/logout">Logout</a></div>
   </body>
 </html>

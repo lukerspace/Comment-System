@@ -32,8 +32,28 @@ app.get("/", (req, res) => {
   res.render("index.ejs");
 });
 
-app.get("/member", (req, res) => {
-  res.render("member.ejs");
+app.get("/member", async (req, res) => {
+  if (!req.session.member) {
+    res.redirect("/error?msg=Please LogIn");
+    console.log("ERROR - Please_LogIn");
+    return;
+  }
+  const name = req.session.member.name.toUpperCase();
+  // Get all the data in database
+  const collection = db.collection("member");
+  let result = await collection.find({});
+  let data = [];
+  // Get all the data in collection
+  // await result.forEach((user) => {
+  //   console.log(user);
+  // });
+  // Push all the data in collection into Data List
+  await result.forEach((member) => {
+    data.push(member);
+  });
+  console.log(data);
+
+  res.render("member.ejs", { name: name, data: data });
 });
 
 app.get("/error", (req, res) => {
@@ -59,7 +79,7 @@ app.post("/signup", async (req, res) => {
     email: email,
     password: password,
   });
-  console.log("SUCCESS - user_upload_successfully");
+  console.log("SUCCESS - User_Upload_Successfully");
   res.redirect("/");
 });
 
@@ -76,10 +96,16 @@ app.post("/login", async (req, res) => {
     return;
   } else {
     req.session.member = result;
-    console.log("log :", result.name);
+    console.log("Session :", result.name);
     res.redirect("/member");
     console.log("Login Successfully");
   }
+});
+
+app.get("/logout", (req, res) => {
+  req.session.member = null;
+  console.log("Session expired");
+  res.redirect("/");
 });
 
 // listen

@@ -10,13 +10,23 @@
     <h1>Member</h1>
     <h3>Hello, <%= name %></h3>
     <div>This is member page</div>
-    <div>Message</div>
+    <table>
+      <h3>Comment</h3>
+      <form action="/message" method="POST">
+        Message: <input type="text" name="message" ></br>
+        <button>Submit</button>
+      </form>
+    </table>
+  </br>
+  <h3>POST</h3>
     <!-- JavaScript Code -->
-    
     <% for(let i=0;i<data.length;i++){ %>
-      <div><%= data[i].name %><div>
-      <div><%= data[i].email %><div>
+      <div><%= data[i].user %><div>
+      <div><%= data[i].message %><div>
+      <div><%= data[i].time %></div>
+      <hr>
     <% }  %> 
+    <!-- JavaScript Code -->
     <div><a href="/logout">Logout</a></div>
   </body>
 </html>

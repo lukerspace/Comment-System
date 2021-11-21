@@ -38,20 +38,24 @@ app.get("/member", async (req, res) => {
     console.log("ERROR - Please_LogIn");
     return;
   }
-  const name = req.session.member.name.toUpperCase();
+  const name = req.session.member.name;
   // Get all the data in database
-  const collection = db.collection("member");
+  const collection = db.collection("message");
   let result = await collection.find({});
   let data = [];
+
   // Get all the data in collection
   // await result.forEach((user) => {
   //   console.log(user);
   // });
+
   // Push all the data in collection into Data List
   await result.forEach((member) => {
     data.push(member);
   });
-  console.log(data);
+
+  // ShoW all data in terminal
+  // console.log(data);
 
   res.render("member.ejs", { name: name, data: data });
 });
@@ -106,6 +110,35 @@ app.get("/logout", (req, res) => {
   req.session.member = null;
   console.log("Session expired");
   res.redirect("/");
+});
+
+// message collection
+app.post("/message", async (req, res) => {
+  let user = req.session.member.name;
+  let message = req.body.message;
+  let currentDate = new Date();
+  let cDay = currentDate.getDate();
+  let cMonth = currentDate.getMonth() + 1;
+  let cYear = currentDate.getFullYear();
+  let ctime =
+    currentDate.getHours() +
+    ":" +
+    currentDate.getMinutes() +
+    ":" +
+    currentDate.getSeconds();
+  let timestamp = cYear + "/" + cMonth + "/" + cDay + " " + " " + ctime;
+  // console.log(user);
+  // console.log(message);
+  const collection = db.collection("message");
+  let result = await collection.insertOne({
+    user: user,
+    message: message,
+    time: timestamp,
+  });
+  // Show all the message
+  // console.log(result);
+
+  res.redirect("/member");
 });
 
 // listen

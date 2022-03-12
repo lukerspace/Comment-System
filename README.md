@@ -1,7 +1,7 @@
 # Comment System
 
-### NodeJS
+### NodeJS + MongoDB
 
-comment system
+A demo system upload and visualize comment by connected with MongoDB
 
-node index.js
+command - node index.js

@@ -47,12 +47,5 @@ Comment-System/
 ├── index.js # Main server entry point
 └── package.json # Project metadata and dependencies
 
-yaml
-
 ---
 
-## 🧪 Setup & Run Locally
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/lukerspace/Comment-System.git
-   cd Comment-System
